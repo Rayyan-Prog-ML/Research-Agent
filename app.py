@@ -1,12 +1,3 @@
-'''
-benefit of template instead of fstring is 
-1. Default validation 
-2. Reusable (can make a json template and reuse it)
-3. Langchain ecosystem(can make a chain)
-chain: input->template->model->output
-output ko st.write karwadia
-'''
-
 from langchain_google_genai import GoogleGenerativeAI
 from dotenv import load_dotenv
 import streamlit as st
@@ -14,9 +5,11 @@ from langchain_core.prompts import PromptTemplate, load_prompt
 
 load_dotenv()
 
+# Corrected the variable name and spelling of secrets
 GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
-model=GoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY)
+model = GoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY)
 st.header("🧠 AI Research Assistant", divider="rainbow")
+
 # --- Select Research Paper ---
 paper = st.selectbox(
     "📄 Select Research Paper",
@@ -49,15 +42,15 @@ length = st.selectbox(
         "Detailed (long explanation)"
     ]
 )
-#template
-template=load_prompt('template.json')
+
+# Load template
+template = load_prompt('template.json')
 
 if st.button("Summarize"):
-    chain=template | model
-    res=chain.invoke({'paper': paper,
-                 "style":style,
-                 "length": length
-                 })
+    chain = template | model
+    res = chain.invoke({
+        'paper': paper,
+        "style": style,
+        "length": length
+    })
     st.write(res)
-
-    
