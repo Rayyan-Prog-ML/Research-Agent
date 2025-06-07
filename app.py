@@ -14,7 +14,8 @@ from langchain_core.prompts import PromptTemplate, load_prompt
 
 load_dotenv()
 
-model=GoogleGenerativeAI(model="gemini-2.0-flash")
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+model=GoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY)
 st.header("🧠 AI Research Assistant", divider="rainbow")
 # --- Select Research Paper ---
 paper = st.selectbox(
@@ -58,4 +59,5 @@ if st.button("Summarize"):
                  "length": length
                  })
     st.write(res)
+
     
