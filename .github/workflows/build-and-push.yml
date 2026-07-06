@@ -8,7 +8,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository | lowercase }}
 
 jobs:
   build-and-push:
@@ -16,8 +15,15 @@ jobs:
     permissions:
       contents: read
       packages: write
+    
+    outputs:
+      image_name: ${{ steps.lowercase.outputs.image_name }}
 
     steps:
+      - name: Convert repository name to lowercase
+        id: lowercase
+        run: echo "image_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -35,7 +41,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ steps.lowercase.outputs.image_name }}
           tags: |
             type=ref,event=branch
             type=sha,prefix={{branch}}-
