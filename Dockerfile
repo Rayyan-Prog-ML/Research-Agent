@@ -14,4 +14,4 @@ COPY . .
 
 EXPOSE 8501
 
-CMD ["sh", "-c", "streamlit run app.py --server.address=0.0.0.0 --server.port=${PORT}"]
+CMD ["sh", "-c", "python -m streamlit run app.py --server.address=0.0.0.0 --server.port=${PORT}"]
