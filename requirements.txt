@@ -2,6 +2,9 @@
 langchain
 langchain-core
 
+# UI
+streamlit
+
 #OpenAI integration
 langchain-openai
 openai
